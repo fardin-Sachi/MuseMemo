@@ -1,0 +1,94 @@
+//////////////////////////////////////////////////////Platform Name: MuseMemo
+Slogan: Memoirs of creativity, one muse at a time.
+
+
+Features:
+Login functionality with User authentication
+Create and publish blogs
+Comments on blogs
+Blog Searching functionality
+Responsiveness
+
+
+
+
+
+Pages to be created:
+Sign up page
+Infos: Name, email, birth date, gender, password, retype password
+
+
+Sign in page
+Infos: email, password (Authentication)
+
+
+Homepage
+Infos: Recent blogs (upto 5), "Show more" feature
+Functionality: Create post, Search
+
+Blog page
+Infos: Title, Author (User), Post (one), comments
+Functionality: Write a comment
+
+User Profile Page
+Infos: Name, email, birth date, gender, self blogs, change password button
+Functionality: Self blogs fetch, changing password
+
+
+
+
+
+
+Components:
+Navbar:
+Homepage (On blog page), Log Out button, User Name (Go to User Profile on Click) 
+
+Blog:
+
+Comments:
+
+Search Bar: 
+
+
+
+
+Database scheme:
+Users:
+{
+	Name
+	Username (Unique)
+	Email
+	Number
+	Birth Date
+	Gender
+	Password
+}
+
+Blogs:
+{
+	Title
+	Author (User)
+	Post
+	Categories [
+		
+	]
+	Time pf Post
+	Comments {
+		Commentor
+		Comment
+		Time of Comment
+	}
+}
+
+
+
+
+
+
+Fonts:
+navbar: Poppins
+Others: PT_Serif_Caption
+Title: Merriweather
+Author: Open Sans
+Blog: Cardo 
+Date: System font

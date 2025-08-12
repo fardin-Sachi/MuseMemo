@@ -1,11 +1,24 @@
+"use client"
 import HaveAnAccountButton from "@/component/signingButtons/haveAnAccountButton"
-import Form from "next/form"
+import { signup } from "@/login/signUpAction"
+import { useRouter } from "next/navigation"
+import { useActionState, useEffect } from "react"
 
-export default function SignUp() {
+
+export default function SignUpForm() {
+    const router = useRouter()
+    const [state, signUpAction, isPending] = useActionState(signup, undefined)
+    
+    useEffect(() => {
+        if(state?.redirectUrl) {
+            router.push(state.redirectUrl)
+        }
+    }, [state?.redirectUrl, router])
+
   return (
         <div className='bg-[url(/poster-black.svg)] bg-no-repeat bg-bottom bg-[#4bba5b]/50 bg-blend-overlay h-screen grid place-content-start justify-center py-10 w-screen'>
 
-            <Form className='flex flex-col space-y-2.5 min-w-max' action="/search">
+            <form action={signUpAction} className='flex flex-col space-y-2.5 min-w-max'>
             
                 {/* Name and username */}
                 <div className="flex space-x-1">
@@ -17,6 +30,9 @@ export default function SignUp() {
                         minLength={"5"}
                         required
                     />
+                    {state?.errors?.name && 
+                        <p className="text-red-500 text-sm max-w-xs break-all">{state.errors.name}</p>
+                    }
                     <input 
                         className='border-2 rounded-md p-2 placeholder:text-black' 
                         type='text'
@@ -25,6 +41,9 @@ export default function SignUp() {
                         minLength={"4"}
                         required
                     />
+                    {state?.errors?.username && 
+                        <p className="text-red-500 text-sm max-w-xs break-all">{state.errors.username}</p>
+                    }
                 </div>
                 <input 
                     className='border-2 rounded-md p-2 placeholder:text-black' 
@@ -33,15 +52,20 @@ export default function SignUp() {
                     placeholder='Enter your email'
                     required
                 />
-
+                {state?.errors?.email && 
+                    <p className="text-red-500 text-sm max-w-xs break-all">{state.errors.email}</p>
+                }
                 <div className="flex flex-col">
                     <p>Date of Birth</p>
                     <input 
                         className='border-2 rounded-md p-2 flex-1' 
                         type='date'
-                        name="birthdate" 
+                        name="dateOfBirth" 
                         required
                     />
+                    {state?.errors?.dateOfBirth && 
+                        <p className="text-red-500 text-sm max-w-xs break-all">{state.errors.dateOfBirth}</p>
+                    }
                 </div>
 
                 {/* Gender Radio Buttons */}
@@ -86,12 +110,15 @@ export default function SignUp() {
                     minLength={"8"}
                     required
                 />
+                {state?.errors?.password && 
+                    <p className="text-red-500 text-sm max-w-xs break-all">{state.errors.password}</p>
+                }
 
                 <button 
                     className='border-[#B5FCCD] rounded-md p-2 bg-[#B5FCCD]/80 cursor-pointer hover:bg-[#B5FCCD]/99' 
                     type="submit"
-                >Sign up</button>
-            </Form>
+                >{isPending? "Pending..." : "Sign Up"}</button>
+            </form>
             <HaveAnAccountButton />
             
         </div>

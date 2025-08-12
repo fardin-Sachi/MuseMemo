@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 
 const Schema = mongoose.Schema
 
@@ -17,10 +17,6 @@ const usersSchema = new Schema({
         type: String,
         required: true,
     },
-    number: {
-        type: String,
-        required: true,
-    },
     dateOfBirth: {
         type: Date,
         required: true,
@@ -32,15 +28,20 @@ const usersSchema = new Schema({
     },
     password: { 
         type: String, 
-        required: true 
+        required: true, 
+        select: false,
     },
-})
+    blogs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Blog"
+    }]
+}, {timestamps: true})
 
-usersSchema.pre("save", async function (next) {
-    if(!this.isModified("password")) return next()
-    this.password = await bcrypt.hash(this.password, 12)
-    next()
-})
+// usersSchema.virtual('userBlogs', {
+//   ref: 'Blog',
+//   localField: '_id',
+//   foreignField: 'author'
+// });
 
 
-export default mongoose.model('Users', usersSchema)
+export default mongoose.model('User', usersSchema)

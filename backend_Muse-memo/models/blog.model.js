@@ -10,18 +10,18 @@ const blogsSchema = new Schema({
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
+        ref: "User",
         required: true,
     },
-    postContent: {
+    content: {
         type: String,
         trim: true,
         required: true,
     },
-    categories: [{
-        type: String,
+    categories: {
+        type: [String],
         enum:[
-            "Technology", "Science", "Health", "Education", "Business", "Lifestyle", "Entertainment", "Sports", "Travel", "Food",
+            "Technology", "Science", "Health", "Education", "Business", "Lifestyle", "Entertainment", "Sports", "Travel", "Food", "Performance", "Innovation", "Design", "Accessibility", "Frontend"
         ],
         validate: {
             validator: function(value) {
@@ -29,12 +29,12 @@ const blogsSchema = new Schema({
             },
             message: "A blog post can have a maximum of 3 categories."
         },
-        minlength: 1,
-    }],
-    timeOfPost: {
-        type: Date,
-        default: Date.now,
+        required: true,
     },
-})
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "BlogComment"
+    }]
+}, {timestamps: true})
 
-export default mongoose.model('Blogs', blogsSchema)
+export default mongoose.model('Blog', blogsSchema)

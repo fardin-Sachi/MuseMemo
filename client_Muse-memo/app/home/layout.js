@@ -1,20 +1,18 @@
 import Navbar from "@/component/navbar";
 
 export const metadata = {
-  title: "MuseMemo - Homepage",
+  title: "MuseMemo - User Page",
   description: "Memoirs of creativity, one muse at a time.",
   icons: {
     icon: "/logo.svg"
   },
 };
 
-export default function HomeLayout({ children }) {
+export default function HomepageLayout({ children }) {
   return (
-      <div className="bg-[#4bba5b]/50 min-h-screen flex flex-col">
+      <div className="bg-[#4bba5b]/50 h-screen">
         <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
+        {children}
       </div>
   );
 }

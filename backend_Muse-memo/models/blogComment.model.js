@@ -5,12 +5,12 @@ const Schema = mongoose.Schema
 const blogCommentsSchema = new Schema({
     blog: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Blogs",
+        ref: "Blog",
         required: true,
     },
     commentor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
+        ref: "User",
         required: true,
     },
     commentContent: {
@@ -18,10 +18,6 @@ const blogCommentsSchema = new Schema({
         trim: true,
         required: true,
     },
-    timeOfComment: {
-        type: Date,
-        default: Date.now,
-    },
-})
+}, {timestamps: true})
 
-export default mongoose.model('BlogComments', blogCommentsSchema)
+export default mongoose.model('BlogComment', blogCommentsSchema)

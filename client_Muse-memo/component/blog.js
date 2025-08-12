@@ -1,7 +1,44 @@
+"use client"
+import isAuthenticated from "@/lib/authenticatedUser";
+import getBlogs from "@/lib/getBlogs";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 export default function Blog() {
+      const username = useParams()
+      const [blogs, setBlogs] = useState(null)
+      const router = useRouter()
+    
+      useEffect(() => {
+    
+        async function authenticateAndFetchUser() {
+          try {
+            //Authentication
+            const isUserAuthenticated = await isAuthenticated(username.username)
+            if(!isUserAuthenticated){
+              router.push("/")
+              return
+            }
+            
+            //Fetching Blogs
+            const blogsData = await getBlogs()
+            // const formattedDate = new Date(blogsData?.timeOfPost).toLocaleDateString("en-US", {
+            //     year: "numeric",
+            //     month: "long",
+            //     day: "numeric"
+            // })
+            // formattedDate.timeOfPost = formattedDate
+            setBlogs(blogsData);
+          } catch (error) {
+            console.error("Error fetching user:", error);
+          }
+        }
+        
+        authenticateAndFetchUser()
+      }, [username, router])
+
     return (
       <div className="w-full h-full py-10">
-  
         <div className='bg-[#B5FCCD] w-[50%] mx-auto border-[#4bba5b] rounded-lg shadow-2xl py-10 overflow-hidden px-8'>
         
             <div className="flex justify-between flex-wrap">

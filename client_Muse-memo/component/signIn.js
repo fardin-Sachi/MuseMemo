@@ -1,63 +1,54 @@
 "use client"
-import { useState } from 'react'
-import { loginUser } from '@/services/authService'
-import { useRouter } from 'next/router'
 
-import Image from 'next/image'
-import Form from 'next/form'
+import Image from "next/image";
 import poster from "@/public/poster-black.svg"
+import { useActionState, useEffect } from "react";
+import { login } from "@/login/loginAction";
 import CreateNewAccountButton from './signingButtons/createNewAccountButton'
+import SubmitButton from "./signingButtons/submitButton";
+import { useRouter } from "next/navigation";
 
-export default function SignIn() {
-    const [formData, setFormData] = useState({ email: "", password: "" });
-    const [error, setError] = useState("");
-    const router = useRouter();
+export default function SignInForm() {
+    const router = useRouter()
+    const [state, formAction, isPending] = useActionState(login, undefined)
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-
-        try {
-            const data = await loginUser(formData);
-            console.log("Logged in:", data);
-            router.push("/dashboard"); // or any other page
-        } catch (err) {
-            setError(err.message);
+    useEffect(() => {
+        if(state?.redirectUrl) {
+            router.push(state.redirectUrl)
         }
-    }
+    }, [state, router])
 
   return (
     <div className='flex h-screen'>
         {/* SignIn */}
         <div className='grid place-content-center w-screen'>
             {/* <p className='text-center'>Log into MuseMemo</p> */}
-            <Form onSubmit={handleSubmit} className='flex flex-col space-y-2.5' action="/search">
+            <form action={formAction} className='flex flex-col space-y-2.5'>
                 <input 
                     className='border-2 rounded-md p-2 placeholder:text-black' 
-                    type='email'
-                    name="email" 
-                    placeholder='Email'
-                    onChange={handleChange}
+                    type='text'
+                    name="username" 
+                    placeholder='Enter username'
                     required
                 />
+                {state?.errors?.username && 
+                    <p className="text-red-500 text-sm max-w-xs break-all">{state.errors.username}</p>
+                }
+                
                 <input 
                     className='border-2 rounded-md p-2 placeholder:text-black' 
                     type='password'
                     name="password" 
                     placeholder='Enter your password'
-                    onChange={handleChange}
+                    // onChange={handleChange}
                     required
                 />
-                <button 
-                    className='border-[#B5FCCD] rounded-md p-2 bg-[#B5FCCD]/80 cursor-pointer hover:bg-[#B5FCCD]/99' 
-                    type="submit"
-                >Log In</button>
-                {error && <p className="text-red-500">{error}</p>}
-            </Form>
+                {state?.errors?.password && 
+                    <p className="text-red-500 text-sm max-w-xs break-all">{state.errors.password}</p>
+                }
+                {isPending? <SubmitButton param={"Pending..."} /> : <SubmitButton param={"Log In"} /> }
+                
+            </form>
             
             <button
                 className='pt-2'
