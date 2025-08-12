@@ -2,7 +2,7 @@
 
 **MuseMemo** is a full-stack blogging platform designed to provide a creative and user-friendly space for writers, thinkers, and storytellers. It’s built with **Next.js**, **Tailwind CSS**, **Node.js**, **Express.js**, and **MongoDB**.
 
-> 🔧 The backend is fully implemented. The frontend is under development — homepage and blog pages are in progress.
+<!-- > 🔧 The backend is fully implemented. The frontend is under development — homepage and blog pages are in progress. -->
 
 ---
 
