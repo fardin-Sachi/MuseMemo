@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////Platform Name: MuseMemo
+Project Name: MuseMemo
 Slogan: Memoirs of creativity, one muse at a time.
 
 
@@ -24,9 +24,9 @@ Infos: email, password (Authentication)
 
 Homepage
 Infos: Recent blogs (upto 5), "Show more" feature
-Functionality: Create post, Search
+Functionality: Create post, Search post/users
 
-Blog page
+Blog page (One blog)
 Infos: Title, Author (User), Post (one), comments
 Functionality: Write a comment
 

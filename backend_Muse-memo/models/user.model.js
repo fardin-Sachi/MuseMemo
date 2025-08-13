@@ -31,17 +31,21 @@ const usersSchema = new Schema({
         required: true, 
         select: false,
     },
-    blogs: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Blog"
-    }]
+    // blogs: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Blog"
+    // }]
 }, {timestamps: true})
 
-// usersSchema.virtual('userBlogs', {
-//   ref: 'Blog',
-//   localField: '_id',
-//   foreignField: 'author'
-// });
+usersSchema.virtual('userBlogs', {
+  ref: 'Blog',
+  localField: '_id',
+  foreignField: 'author'
+})
+
+usersSchema.set('toObject', { virtuals: true });
+usersSchema.set('toJSON', { virtuals: true });
+
 
 
 export default mongoose.model('User', usersSchema)

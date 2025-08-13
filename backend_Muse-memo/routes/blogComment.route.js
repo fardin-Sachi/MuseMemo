@@ -7,26 +7,25 @@ import {
     updateBlogComment, 
     deleteBlogComment, 
         } from '../controller/blogComment.controller.js'
-import verifyToken from '../middleware/auth.middleware.js'
 
 
 const router = express.Router()
 
-router.post('/', verifyToken, createBlogComment)
+router.post('/', createBlogComment)
 
 
-router.get('/', verifyToken, getBlogComments)
+router.get('/', getBlogComments)
 
-router.get('/:id', verifyToken, getCommentsOfOneBlog)
+router.get('/:id', getCommentsOfOneBlog)
 
 // router.get('/:id', getOneBlogComment)
 
 
 
-router.patch('/:id', verifyToken, updateBlogComment)
+router.patch('/:id', updateBlogComment)
 
 
-router.delete('/:id', verifyToken, deleteBlogComment)
+router.delete('/:id', deleteBlogComment)
 
 
 export default router

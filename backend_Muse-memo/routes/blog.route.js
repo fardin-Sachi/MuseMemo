@@ -6,7 +6,6 @@ import {
         getOneBlog, 
         updateBlog 
 } from '../controller/blog.controller.js'
-
 const router = express.Router()
 
 router.get('/', getBlogs)

@@ -31,10 +31,34 @@ const blogsSchema = new Schema({
         },
         required: true,
     },
-    comments: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "BlogComment"
-    }]
+    // comments: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "BlogComment",
+    //     default: [],
+    // }]
 }, {timestamps: true})
+
+blogsSchema.index({ author: 1 });
+
+blogsSchema.virtual('commentCount').get(function () {
+  return this.comments?.length || 0;
+});
+
+blogsSchema.virtual('comments', {
+  ref: 'BlogComment',
+  localField: '_id',
+  foreignField: 'blog'
+})
+
+blogsSchema.set('toObject', { virtuals: true });
+blogsSchema.set('toJSON', { virtuals: true });
+
+blogsSchema.pre('findOneAndDelete', async function (next) {
+  const blog = await this.model.findOne(this.getFilter());
+  if (blog) {
+    await mongoose.model('BlogComment').deleteMany({ blog: blog._id });
+  }
+  next();
+});
 
 export default mongoose.model('Blog', blogsSchema)

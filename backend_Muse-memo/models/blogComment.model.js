@@ -20,4 +20,7 @@ const blogCommentsSchema = new Schema({
     },
 }, {timestamps: true})
 
+blogCommentsSchema.index({ blog: 1 });
+
+
 export default mongoose.model('BlogComment', blogCommentsSchema)

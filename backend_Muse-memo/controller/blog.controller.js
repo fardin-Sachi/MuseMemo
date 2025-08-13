@@ -25,8 +25,8 @@ export const createBlog = async (req, res, next) => {
         const savedBlog = await newBlog.save()
 
         // Push the blog ID to the associate User model
-        user.blogs.push(savedBlog._id)
-        await user.save()
+        // user.blogs.push(savedBlog._id)
+        // await user.save()
 
         res.status(201).send(savedBlog)
 
@@ -49,6 +49,7 @@ export const getBlogs = async (req, res, next) => {
                             select: 'username name'
                         }
             })
+            .lean()
         
         if(!blogs || blogs.length === 0){
             return res.status(404).json({error: "No Blog found"})
@@ -166,7 +167,6 @@ export const deleteBlog = async (req, res, next) => {
         })
     
         res.status(200).json({success: true, data: `Blog "${deletedBlog.title}" deleted successfully`})
-        
     } catch (error) {
         res.status(500).json({success: false, message: `Internal Server Error: ${error.message}`})
     }
